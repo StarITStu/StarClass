@@ -1,0 +1,38 @@
+        function loadXMLDoc() {
+            
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "https://api.github.com/repos/StarITStu/StarClass/contents", true);
+            xmlhttp.send();
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    c = xmlhttp.responseText;
+                    var mydata = JSON.parse(c);
+                    var n = mydata.length;
+                    var text = ""
+                    document.write("<h1>StarClass</h1>")
+                    for (i = 0; i < mydata.length; i++) {
+                        var x = i + 1000;
+                        var y = 2000 + i;
+                        text = mydata[i].name;
+                        document.write("<p>文件名：<span id="+i+"></span></p>")
+                        document.getElementById(i).innerHTML = text;
+                        text = mydata[i].download_url;
+                        document.write("<p>网址:<a id="+y+" ><span id="+x+"></span></a></p>")
+                        document.getElementById(x).innerHTML = text;
+                        document.getElementById(y).href = text;
+                        
+                    }
+                }
+                else if (xmlhttp.status != 200) {
+                    alert("超时！！")
+                }
+            }
+        }
+        loadXMLDoc();
